@@ -8,7 +8,10 @@ import UserForm from './components/UserForm'
 function App() {
   const [users, setUsers] = useState([])
   const [isAdding, setIsAdding] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [userToEdit, setUserToEdit] = useState(null)
   console.log(users)
+  console.log(userToEdit)
 
   useEffect(() => {
     axios.get('http://localhost:8000/api/users')
@@ -42,13 +45,34 @@ function App() {
       })
   }
 
+  const startEdit = user => {
+    setIsEditing(true)
+    setUserToEdit(user)
+  }
+  
+  const cancelEdit = () => {
+    setIsEditing(false)
+    setUserToEdit(null)
+  }
+
+  const editUser = (user, id) => {
+    axios.put(`http://localhost:8000/api/users/${id}`, user)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   return (
     <div>
-      <UserList users={users} deleteUser={deleteUser} />
+      <UserList users={users} deleteUser={deleteUser} startEdit={startEdit} />
       {!isAdding ?
         <Button variant='contained' onClick={() => setIsAdding(true)}>Add User</Button>
         : <UserForm action='Add User' handleSubmit={addUser} handleCancel={() => setIsAdding(false)} />
       }
+      {isEditing && <UserForm action='Edit User' handleSubmit={editUser} handleCancel={cancelEdit} userToEdit={userToEdit} />}
     </div>
   );
 }

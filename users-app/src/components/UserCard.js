@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent, Button } from '@material-ui/core'
 
 const UserCard = props => {
+    const [isEditing, setIsEditing] = useState(false)
+
     const handleDelete = () => {
         props.deleteUser(props.user.id)
+    }
+
+    const handleEdit = () => {
+        setIsEditing(true)
+        props.startEdit(props.user)
     }
 
     return (
@@ -11,7 +18,7 @@ const UserCard = props => {
             <CardContent>
                 <h3>Name: {props.user.name}</h3>
                 <p>Bio: {props.user.bio}</p>
-                <Button>Edit</Button>
+                <Button onClick={handleEdit}>Edit</Button>
                 <Button onClick={handleDelete}>Delete</Button>
             </CardContent>
         </Card>
