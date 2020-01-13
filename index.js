@@ -11,7 +11,7 @@ server.get('/api/users', (req, res) => {
         })
         .catch(err => {
             console.log(err)
-            err.status(500).json({ errorMessage: 'Sorry, we ran into an error getting the list of users.' })
+            err.status(500).json({ errorMessage: 'The users information could not be retrieved.' })
         })
 })
 
@@ -20,11 +20,15 @@ server.get('/api/users/:id', (req, res) => {
 
     Hubs.findById(id)
         .then(user => {
-            res.status(200).json(user)
+            if (!user) {
+                res.status(404).json({ errorMessage: 'The user with the specified ID does not exist.' })
+            } else {
+                res.status(200).json(user)
+            }
         })
         .catch(err => {
             console.log(err)
-            res.status(500).json({ errorMessage: 'Sorry, we ran into an error getting that user.' })
+            res.status(404).json({ errorMessage: 'The user with the specified ID does not exist.' })
         })
 })
 
@@ -38,11 +42,29 @@ server.post('/api/users', (req, res) => {
             })
             .catch(err => {
                 console.log(err)
-                res.status(500).json({ errorMessage: 'Sorry, we ran into an error creating the user.' })
+                res.status(500).json({ errorMessage: 'There was an error while saving the user to the database.' })
             })
     } else {
         res.status(500).json({ errorMessage: 'Please provide name and bio for the user.' })
     }
+})
+
+server.delete('/api/users/:id', (req, res) => {
+    const id = req.params.id
+
+    Hubs.remove(id)
+        .then(user => {
+            if (!user) {
+                res.status(404).json({ errorMessage: 'The user with the specified ID does not exist.' })
+            } else {
+                res.status(204).json(user)
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({ errorMessage: 'The user could not be removed.' })
+        })
+    
 })
 
 const port = 8000
