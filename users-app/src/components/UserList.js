@@ -2,11 +2,12 @@ import React from 'react'
 
 import UserCard from './UserCard'
 
-const UserList = ({ users }) => {
+const UserList = props => {
     return (
         <div>
-            {users.map(user => (
+            {props.users.map(user => (
                 <UserCard
+                    {...props}
                     key={user.id}
                     user={user}
                 />
