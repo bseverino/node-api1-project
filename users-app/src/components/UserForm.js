@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextField, Button } from '@material-ui/core'
 
 const initialValues = {
@@ -9,6 +9,15 @@ const initialValues = {
 const UserForm = props => {
     const [values, setValues] = useState(initialValues)
 
+    useEffect(() => {
+        if (props.userToEdit) {
+            setValues({
+                name: props.userToEdit.name,
+                bio: props.userToEdit.bio
+            })
+        }
+    }, [props.userToEdit])
+
     const handleChange = e => {
         setValues({
             ...values,
@@ -18,7 +27,13 @@ const UserForm = props => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        props.handleSubmit(values)
+
+        if (!props.userToEdit) {
+            props.handleSubmit(values)
+        } else {
+            props.handleSubmit(values, props.userToEdit.id)
+        }
+
         setValues(initialValues)
         props.handleCancel()
     }
