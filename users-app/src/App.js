@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Container, Button } from 'reactstrap'
+import styled from 'styled-components'
+import { Container as ReactContainer, Button } from 'reactstrap'
 
 import UserList from './components/UserList'
 import UserForm from './components/UserForm'
+
+const Container = styled(ReactContainer)`
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 
 function App() {
   const [users, setUsers] = useState([])

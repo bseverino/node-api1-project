@@ -1,6 +1,18 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Col, Card, CardBody, Button } from 'reactstrap'
+import { Col, Card, CardBody as ReactCardBody, Button as ReactButton } from 'reactstrap'
+
+const CardBody = styled(ReactCardBody)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+`
+
+const Button = styled(ReactButton)`
+    width: 80px;
+    margin-bottom: 10px;
+`
 
 const UserCard = props => {
     const [isEditing, setIsEditing] = useState(false)
@@ -19,9 +31,11 @@ const UserCard = props => {
             <Card>
                 <CardBody>
                     <h4>{props.user.name}</h4>
-                    <p>Bio: {props.user.bio}</p>
-                    <Button onClick={handleEdit}>Edit</Button>
-                    <Button onClick={handleDelete}>Delete</Button>
+                    <p>{props.user.bio}</p>
+                    <div>
+                        <Button onClick={handleEdit}>Edit</Button>{' '}
+                        <Button color='danger' onClick={handleDelete}>Delete</Button>
+                    </div>
                 </CardBody>
             </Card>
         </Col>

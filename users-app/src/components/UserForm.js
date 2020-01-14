@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { TextField, Button } from '@material-ui/core'
+import styled from 'styled-components'
+import { Row, Col, Form as ReactForm, FormGroup, Input, Button } from 'reactstrap'
+
+const Form = styled(ReactForm)`
+    width: 100%;
+`
+
+const ButtonGroup = styled(FormGroup)`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+`
 
 const initialValues = {
     name: '',
@@ -39,12 +50,22 @@ const UserForm = props => {
     }
 
     return (
-        <form id='form'>
-            <TextField name='name' label='Name' value={values.name} onChange={handleChange} />
-            <TextField name='bio' label='Bio' value={values.bio} onChange={handleChange} />
-            <Button variant='contained' onClick={handleSubmit}>{props.action}</Button>
-            <Button variant='contained' onClick={props.handleCancel}>Cancel</Button>
-        </form>
+        <Row>
+            <Col xs='12'>
+                <Form>
+                    <FormGroup>
+                        <Input type='text' name='name' value={values.name} onChange={handleChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Input type='text' name='bio' value={values.bio} onChange={handleChange} />
+                    </FormGroup>
+                    <ButtonGroup>
+                        <Button onClick={handleSubmit}>{props.action}</Button>
+                        <Button color='danger' onClick={props.handleCancel}>Cancel</Button>
+                    </ButtonGroup>
+                </Form>
+            </Col>
+        </Row>
     )
 }
 
