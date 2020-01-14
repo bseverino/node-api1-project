@@ -1,8 +1,10 @@
 // implement your API here
 const express = require('express')
+const cors = require('cors')
 const Hubs = require('./data/db.js')
 const server = express()
 server.use(express.json())
+server.use(cors())
 
 // returns a list of users
 server.get('/api/users', (req, res) => {
@@ -31,7 +33,7 @@ server.get('/api/users/:id', (req, res) => {
         })
         .catch(err => {
             console.log(err)
-            res.status(404).json({ errorMessage: 'The user with the specified ID does not exist.' })
+            res.status(500).json({ errorMessage: 'The user could not be retrieved.' })
         })
 })
 
