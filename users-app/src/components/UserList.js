@@ -1,10 +1,11 @@
 import React from 'react'
+import { Row } from 'reactstrap'
 
 import UserCard from './UserCard'
 
 const UserList = props => {
     return (
-        <div>
+        <Row>
             {props.users.map(user => (
                 <UserCard
                     {...props}
@@ -12,7 +13,7 @@ const UserList = props => {
                     user={user}
                 />
             ))}
-        </div>
+        </Row>
     )
 }
 

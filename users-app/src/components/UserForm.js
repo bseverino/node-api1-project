@@ -39,7 +39,7 @@ const UserForm = props => {
     }
 
     return (
-        <form>
+        <form id='form'>
             <TextField name='name' label='Name' value={values.name} onChange={handleChange} />
             <TextField name='bio' label='Bio' value={values.bio} onChange={handleChange} />
             <Button variant='contained' onClick={handleSubmit}>{props.action}</Button>

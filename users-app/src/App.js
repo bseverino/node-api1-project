@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Button } from '@material-ui/core'
+import { Container, Button } from 'reactstrap'
 
 import UserList from './components/UserList'
 import UserForm from './components/UserForm'
@@ -39,6 +39,13 @@ function App() {
     axios.post('http://localhost:8000/api/users', user)
       .then(res => {
         console.log(res)
+        axios.get('http://localhost:8000/api/users')
+          .then(res => {
+            setUsers(res.data)
+          })
+          .catch(err => {
+            console.log(err)
+          })
       })
       .catch(err => {
         console.log(err)
@@ -48,6 +55,7 @@ function App() {
   const startEdit = user => {
     setIsEditing(true)
     setUserToEdit(user)
+    window.scrollTo(0, 0)
   }
   
   const cancelEdit = () => {
@@ -59,6 +67,13 @@ function App() {
     axios.put(`http://localhost:8000/api/users/${id}`, user)
       .then(res => {
         console.log(res)
+        axios.get('http://localhost:8000/api/users')
+          .then(res => {
+            setUsers(res.data)
+          })
+          .catch(err => {
+            console.log(err)
+          })       
       })
       .catch(err => {
         console.log(err)
@@ -66,14 +81,16 @@ function App() {
   }
 
   return (
-    <div>
-      <UserList users={users} deleteUser={deleteUser} startEdit={startEdit} />
-      {!isAdding ?
-        <Button variant='contained' onClick={() => setIsAdding(true)}>Add User</Button>
-        : <UserForm action='Add User' handleSubmit={addUser} handleCancel={() => setIsAdding(false)} />
-      }
+    <Container>      
       {isEditing && <UserForm action='Edit User' handleSubmit={editUser} handleCancel={cancelEdit} userToEdit={userToEdit} />}
-    </div>
+
+      <UserList users={users} deleteUser={deleteUser} startEdit={startEdit} />
+
+      {!isAdding ?
+        <Button onClick={() => setIsAdding(true)}>Add User</Button>
+        : <UserForm action='Add User' handleSubmit={addUser} handleCancel={() => setIsAdding(false)} />
+      }      
+    </Container>
   );
 }
 
